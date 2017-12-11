@@ -44,12 +44,11 @@ relthings(){
 shinst(){
 	printf "base16-shell is not installed. Install? [Y/n] "
 	read -r yn
-	if [[ -z "${yn}" ]] || [[ "${yn}" == "Y" ]] || [[ "${yn}" == "y" ]];then
-		git clone "${shurl}" ~/.config/base16-shell
-		echo "Add the following lines to your shellrc to complete installation of base16-shell"
-		printf "\n\n"
-		echo 'BASE16_SHELL=$HOME/.config/base16-shell/'
-		echo '[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"'
+	if [[ -z "${yn}" ]] || [[ "${yn}" == "Y" ]] || [[ "${yn}" == "y" ]]; then
+		git clone "${shurl}" "${HOME}/.config/base16-shell"
+		chmod -x "${scriptdir}/*"
+	else
+		echo "no" > "${cachedir}/instno"
 	fi
 }
 
@@ -61,8 +60,6 @@ main(){
 	fi
 	if [[ ! -d "${scriptdir}" ]] && [[ ! -f "${cachedir}/instno" ]]; then
 		shinst
-	else
-		echo "no" > "${cachedir}/instno"
 	fi
 	if [[ -n "${1}" ]]; then
 		if [[ "${1}" == base16-* ]] && grep -q "${1}" "${cachedir}/list"; then
