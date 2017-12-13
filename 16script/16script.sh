@@ -10,7 +10,7 @@ xresch(){
 		echo "Xresources file found :)"
 	else
 		echo "Downloading Xresources from GitHub"; (
-		curl -s "${xresurl}/${1}-256.Xresources";
+		curl "${xresurl}/${1}-256.Xresources";
 		echo "rofi.color-enabled:	true";
 		echo "rofi.color-active:	base01, base0D, base01, base01, base0D";
 		echo "rofi.color-normal:	base01, base05, base01, base01, base07";
@@ -35,10 +35,12 @@ relthings(){
 	if pgrep -x i3 > /dev/null && grep -q set_from_resource "${HOME}/.config/i3/config"; then
 		i3-msg restart
 	fi
-	killall -q polybar
-	while pgrep -x polybar > /dev/null; do sleep 1; done
-	polybar example &
+	if pgrep -x polybar > /dev/null && grep -q xrdb "${HOME}/.config/polybar/config"; then
+		killall -q polybar
+		while pgrep -x polybar > /dev/null; do sleep 1; done
+		polybar example &
 	disown
+	fi
 }
 
 shinst(){
@@ -56,7 +58,7 @@ main(){
 	if [[ ! -d "${cachedir}" ]]; then
 		mkdir "${cachedir}"
 		mkdir "${cachedir}/Xresources"
-		curl -s http://ix.io/CTB > "${cachedir}/list"
+		curl http://ix.io/CTB > "${cachedir}/list"
 	fi
 	if [[ ! -d "${scriptdir}" ]] && [[ ! -f "${cachedir}/instno" ]]; then
 		shinst
