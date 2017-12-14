@@ -23,6 +23,13 @@ xresch(){
 	xrdb -merge <<< "${xres}"
 }
 
+relpb(){
+	killall -q polybar
+	while pgrep -x polybar > /dev/null; do sleep 1; done
+	polybar example &
+	disown
+}
+
 relthings(){
 	echo "Reloading things."
 	if [[ -d ${scriptdir} ]]; then
@@ -32,15 +39,10 @@ relthings(){
 	else
 		echo "base16-shell doesn't seem to be installed."
 	fi
-	if pgrep -x i3 > /dev/null && grep -q set_from_resource "${HOME}/.config/i3/config"; then
+	if pgrep -x i3 > /dev/null && grep -q set_ "${HOME}/.config/i3/config"; then
 		i3-msg restart
 	fi
-	if pgrep -x polybar > /dev/null && grep -q xrdb "${HOME}/.config/polybar/config"; then
-		killall -q polybar
-		while pgrep -x polybar > /dev/null; do sleep 1; done
-		polybar example &
-	disown
-	fi
+	pgrep -x polybar > /dev/null && relpb
 }
 
 shinst(){
@@ -69,6 +71,9 @@ main(){
 			xresch "${1}"
 			relthings "${1}"
 		fi
+	fi
+	if [[ "${1}" == "-l" ]]; then
+		main "$(< "${cachedir}/lastuse" )"
 	fi
 	if [[ -x "${2}" ]]; then
 		bash "${2}"
