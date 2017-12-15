@@ -6,8 +6,12 @@ xresurl="https://raw.githubusercontent.com/chriskempson/base16-xresources/master
 shurl="https://github.com/chriskempson/base16-shell.git"
 
 xresch(){
-	if [[ -f "${cachedir}/Xresources/${1}.Xresources" ]]; then
+	if [[ -f "${cachedir}/Xresources/${1}.Xresources" ]] &&
+	grep -q 'color[0-21]' "${cachedir}/Xresources/${1}.Xresources" ; then
 		echo "Xresources file found :)"
+		xres="$(< "${cachedir}/Xresources/${1}.Xresources")"
+		xrdb ~/.Xresources
+		xrdb -merge <<< "${xres}"
 	else
 		echo "Downloading Xresources from GitHub"; (
 		curl "${xresurl}/${1}-256.Xresources";
@@ -16,11 +20,9 @@ xresch(){
 		echo "rofi.color-normal:	base01, base05, base01, base01, base07";
 		echo "rofi.color-urgent:	base01, base08, base01, base01, base08";
 		echo "rofi.color-window:	base01, base01, base00"
-		) >> "${cachedir}/Xresources/${1}.Xresources"
+		) > "${cachedir}/Xresources/${1}.Xresources"
+		xresch "${1}"
 	fi
-	xres="$(< "${cachedir}/Xresources/${1}.Xresources")"
-	xrdb ~/.Xresources
-	xrdb -merge <<< "${xres}"
 }
 
 relpb(){
