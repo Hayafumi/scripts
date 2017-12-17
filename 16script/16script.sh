@@ -2,6 +2,7 @@
 
 cachedir="${HOME}/.cache/16script"
 scriptdir="${HOME}/.config/base16-shell/scripts"
+confdir="${HOME}/.config"
 xresurl="https://raw.githubusercontent.com/chriskempson/base16-xresources/master/xresources"
 shurl="https://github.com/chriskempson/base16-shell.git"
 
@@ -10,7 +11,7 @@ xresch(){
 	grep -q 'color[0-21]' "${cachedir}/Xresources/${1}.Xresources" ; then
 		echo "Xresources file found :)"
 		xres="$(< "${cachedir}/Xresources/${1}.Xresources")"
-		xrdb ~/.Xresources
+		xrdb "${HOME}/.Xresources"
 		xrdb -merge <<< "${xres}"
 	else
 		echo "Downloading Xresources from GitHub"; (
@@ -41,7 +42,7 @@ relthings(){
 	else
 		echo "base16-shell doesn't seem to be installed."
 	fi
-	if pgrep -x i3 > /dev/null && grep -q set_ "${HOME}/.config/i3/config"; then
+	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
 		i3-msg restart
 	fi
 	pgrep -x polybar > /dev/null && relpb
