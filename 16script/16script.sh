@@ -53,7 +53,7 @@ shinst(){
 	read -r yn
 	if [[ -z "${yn}" ]] || [[ "${yn}" == "Y" ]] || [[ "${yn}" == "y" ]]; then
 		git clone "${shurl}" "${HOME}/.config/base16-shell"
-		chmod -x "${scriptdir}/*"
+		find "${scriptdir}" -type f -exec chmod +x {} \;
 	else
 		echo "no" > "${cachedir}/instno"
 	fi
@@ -69,7 +69,7 @@ main(){
 		shinst
 	fi
 	if [[ -n "${1}" ]]; then
-		if [[ "${1}" == base16-* ]] && grep -q "${1}" "${cachedir}/list"; then
+		if grep -q "${1}" "${cachedir}/list"; then
 			echo "${1}" > "${cachedir}/lastuse"
 			xresch "${1}"
 			relthings "${1}"
