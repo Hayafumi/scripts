@@ -41,7 +41,7 @@ dunsch(){
 	sta="[urgency_low] [urgency_normal] [urgency_critical]"
 	for c in ${sta}; do
 		echo "${c}"
-		printf "\tbackground = \"${background}\"\n\tforeground = ${foreground}\"\n"
+		printf "\tbackground = \"${background}\"\n\tforeground = \"${foreground}\"\n"
 		if [[ ! "${c}" == "[urgency_critical]" ]]; then
 			printf "\ttimeout = 4\n"
 		else
@@ -63,6 +63,7 @@ main(){
 	bgr
 	dunsch
 	notify-send "16script" "You're now using "${lastuse}"."
+	~/scripts/launch.sh
 }
 
 main "$@"
