@@ -26,13 +26,6 @@ xresch(){
 	fi
 }
 
-relpb(){
-	killall -q polybar
-	while pgrep -x polybar > /dev/null; do sleep 1; done
-	polybar example &
-	disown
-}
-
 relthings(){
 	echo "Reloading things."
 	if [[ -d ${scriptdir} ]]; then
@@ -45,7 +38,7 @@ relthings(){
 	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
 		i3-msg restart
 	fi
-	pgrep -x polybar > /dev/null && relpb
+	pgrep -x polybar > /dev/null && pkill -USR1 polybar
 }
 
 shinst(){
