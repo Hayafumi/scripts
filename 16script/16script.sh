@@ -10,8 +10,8 @@ xresch(){
 	if [[ -f "${cachedir}/Xresources/${1}.Xresources" ]] &&
 	grep -q 'color[0-21]' "${cachedir}/Xresources/${1}.Xresources" ; then
 		echo "Xresources file found :)"
-		xres="$(< "${cachedir}/Xresources/${1}.Xresources")"
-		xrdb "${HOME}/.Xresources"
+		xres="$(< ${cachedir}/Xresources/${1}.Xresources)"
+		xrdb "${HOME}/.Xresources" &> /dev/null
 		xrdb -merge <<< "${xres}"
 	else
 		echo "Downloading Xresources from GitHub"; (
@@ -38,7 +38,7 @@ relthings(){
 	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
 		i3-msg restart
 	fi
-	pgrep -x polybar > /dev/null && pkill -USR1 polybar
+	pgrep -x polybar > /dev/null && killall polybar
 }
 
 shinst(){
@@ -69,7 +69,7 @@ main(){
 		fi
 	fi
 	if [[ "${1}" == "-l" ]]; then
-		main "$(< "${cachedir}/lastuse" )"
+		main "$(< ${cachedir}/lastuse )"
 	fi
 	if [[ -x "${2}" ]]; then
 		bash "${2}"
