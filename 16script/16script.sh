@@ -15,12 +15,12 @@ xresch(){
 		xrdb -merge <<< "${xres}"
 	else
 		echo "Downloading Xresources from GitHub"; (
-		curl "${xresurl}/${1}-256.Xresources";
-		echo "rofi.color-enabled:	true";
-		echo "rofi.color-active:	base01, base0D, base01, base01, base0D";
-		echo "rofi.color-normal:	base01, base05, base01, base01, base07";
-		echo "rofi.color-urgent:	base01, base08, base01, base01, base08";
-		echo "rofi.color-window:	base01, base01, base00"
+			curl -s "${xresurl}/${1}-256.Xresources";
+			echo "rofi.color-enabled:   true";
+			echo "rofi.color-active:    base01, base0D, base01, base01, base0D";
+			echo "rofi.color-normal:    base01, base05, base01, base01, base07";
+			echo "rofi.color-urgent:    base01, base08, base01, base01, base08";
+			echo "rofi.color-window:    base01, base01, base00"
 		) > "${cachedir}/Xresources/${1}.Xresources"
 		xresch "${1}"
 	fi

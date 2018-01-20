@@ -29,12 +29,6 @@ confdir="${HOME}/.config"
 lastuse="$( < ${cachedir}/lastuse )"
 dunstdir="${cachedir}/dunst"
 
-# var(){
-# 	for n in `seq 1 21`; do
-# 		export "color${n}=`xrdb -query | grep "color${n}" | cut -f2 | head -n 1`"
-# 	done
-# }
-
 grad(){
 	convert -size 1366x768 xc: -sparse-color  Barycentric \
 	"0,%h ${color05}    90,90 ${color02}" \
@@ -48,8 +42,7 @@ dunsch(){
 	fi
 	if [[ -e "${dunstdir}/${lastuse}.dunst" ]]; then
 		cat "${dunstdir}/${lastuse}.dunst" > "${confdir}/dunst/dunstrc"
-	else
-		(
+	else; (
 			sta="[urgency_low] [urgency_normal] [urgency_critical]"
 			for c in ${sta}; do
 				echo "${c}"
@@ -60,8 +53,7 @@ dunsch(){
 					printf "\tframe_color=\"${color01}\"\n\ttimeout = 0\n"
 				fi
 			done
-		) > "${dunstdir}/${lastuse}.dunst"
-		(
+		) > "${dunstdir}/${lastuse}.dunst"; (
 			cat "${confdir}/dunst/origin.dunst";
 			cat "${dunstdir}/${lastuse}.dunst"
 		) > "${confdir}/dunst/dunstrc"
