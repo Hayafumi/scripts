@@ -38,7 +38,6 @@ relthings(){
 	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
 		i3-msg restart
 	fi
-	pgrep -x polybar > /dev/null && killall polybar
 }
 
 shinst(){
