@@ -29,20 +29,29 @@ confdir="${HOME}/.config"
 lastuse="$( < ${cachedir}/lastuse )"
 dunstdir="${cachedir}/dunst"
 
+#grad(){
+#	convert -size 1366x768 xc: -sparse-color  Barycentric \
+#	"0,%h ${color05}    90,90 ${color02}" \
+#	"${cachedir}/bg.png"
+#	feh --bg-fill "${cachedir}/bg.png"
+#}
+
 grad(){
 	convert -size 1366x768 xc: -sparse-color  Barycentric \
-	"0,%h ${color05}    90,90 ${color02}" \
+	"0,%h ${bg}    90,90 ${bg}" \
 	"${cachedir}/bg.png"
 	feh --bg-fill "${cachedir}/bg.png"
 }
 
 dunsch(){
+
 	if [[ ! -e "${dunstdir}" ]]; then
 		mkdir "${dunstdir}"
 	fi
 	if [[ -e "${dunstdir}/${lastuse}.dunst" ]]; then
 		cat "${dunstdir}/${lastuse}.dunst" > "${confdir}/dunst/dunstrc"
-	else; (
+	else
+		(
 			sta="[urgency_low] [urgency_normal] [urgency_critical]"
 			for c in ${sta}; do
 				echo "${c}"
@@ -64,15 +73,16 @@ dunsch(){
 	killall dunst
 	dunst &
 	disown
-	if [[ "$(grep -o '^[0-9]\+' < /proc/uptime)" -gt "5" ]]; then
-		notify-send "16script" "You're now using ${lastuse}."
-	fi
+
+	notify-send "16script" "You're now using ${lastuse}."
+
 }
 
 main(){
-	grad
-	#hset
+
+#	grad
 	dunsch
+
 }
 
 main "${@}"
