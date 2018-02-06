@@ -236,7 +236,7 @@ rasich(){
 
 main(){
 
-	grad
+#	grad
 	rasich
 	dunsch
 
