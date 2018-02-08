@@ -2,7 +2,7 @@
 
 if [[ "$1" == base16-*.png ]]; then
 	~/scripts/16script/16script.sh "${1::-4}" ~/scripts/16script/16scriptpart2.sh
-	echo "${1::-4}" > ~/.background/16script
+	echo "${1::-4}" > ~/.background/colors
 	if [[ -e ~/.background/wal ]]; then
 		rm ~/.background/current
 		ln -s "$(< ~/.background/wal)" ~/.background/current
@@ -16,16 +16,16 @@ elif [[ "$1" == "-g" ]]; then
 elif [[ "$1" == "-e" ]]; then
 	if [[ -e ~/.background/wal ]]; then
 		wal -i "$(< ~/.background/wal)"
-		~/scripts/16script/16scriptpart2.sh
+		~/scripts/colors/colorspart2.sh
 	else
 		feh --bg-fill ~/.background/current
 	fi
 elif [[ "$1" == "-s" ]]; then
 	[[ -e ~/.background/wal ]] && (cat ~/.cache/wal/sequences &)
-	[[ -e ~/.background/16script ]] && ~/.config/base16-shell/scripts/"$(< ~/.background/16script).sh"
+	[[ -e ~/.background/colors ]] && ~/.config/base16-shell/scripts/"$(< ~/.background/colors).sh"
 else
 	wal -i "$1"
-	rm ~/.background/current
-	rm ~/.background/16script
+	[[ -f ~/.background/current ]] && rm ~/.background/current
+	[[ -f ~/.background/colors ]] && rm ~/.background/colors
 	readlink -f "$1" > ~/.background/wal
 fi
