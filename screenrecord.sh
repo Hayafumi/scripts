@@ -1,7 +1,7 @@
 #!/bin/bash
 
 chgif(){
-	export FILE="${HOME}/rec_$(date +%Y_%m_%d_%H_%M_%S).mkv";
+	export FILE="${HOME}/rec_$(date +%Y_%m_%d_%H_%M_%S).mp4";
 	ffmpeg -f x11grab -show_region 1 $(slop -f "-s %wx%h -i :0.0+%x,%y") \
 	-f alsa -i default -c:v libx264 -c:a flac "${FILE}";
 	test ["?$"="255"] &&
@@ -20,10 +20,10 @@ outf(){
 			outfile="${1}"
 		fi
 	if [[ "${1}" == "-n" ]]; then
-		outfile="$HOME/rec_$(date +%Y_%m_%d_%H_%M_%S).mkv"
+		outfile="$HOME/rec_$(date +%Y_%m_%d_%H_%M_%S).mp4"
 	fi
 	else
-		outfile="rec_$(date +%Y_%m_%d_%H_%M_%S).mkv"
+		outfile="rec_$(date +%Y_%m_%d_%H_%M_%S).mp4"
 	fi
 }
 
