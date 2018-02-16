@@ -16,7 +16,7 @@ elif [[ "$1" == "-g" ]]; then
 elif [[ "$1" == "-e" ]]; then
 	if [[ -e ~/.background/wal ]]; then
 		wal -i "$(< ~/.background/wal)"
-		~/scripts/colors/colorspart2.sh
+		~/scripts/16script/16scriptpart2.sh
 	else
 		feh --bg-fill ~/.background/current
 	fi
