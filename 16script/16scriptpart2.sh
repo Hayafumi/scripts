@@ -40,50 +40,37 @@ grad(){
 }
 
 dunsch(){
-	if [[ ! -e "${dunstdir}" ]]; then
-		mkdir "${dunstdir}"
-	fi
-	if [[ -e "${dunstdir}/${lastuse}.dunst" ]]; then
-		cat "${dunstdir}/${lastuse}.dunst" > "${confdir}/dunst/dunstrc"
-	else
-		(
-			sta="[urgency_low] [urgency_normal] [urgency_critical]"
-			for c in ${sta}; do
-				echo "${c}"
-				printf "\tbackground = \"${bg}\"\n\tforeground = \"${fg}\"\n"
-				if [[ ! "${c}" == "[urgency_critical]" ]]; then
-					printf "\ttimeout = 4\n"
-				else
-					printf "\tframe_color=\"${color01}\"\n\ttimeout = 0\n"
-				fi
-			done
-		) > "${dunstdir}/${lastuse}.dunst";
-		(
-			cat "${confdir}/dunst/origin.dunst";
-			cat "${dunstdir}/${lastuse}.dunst"
-		) > "${confdir}/dunst/dunstrc"
-		cat "${confdir}/dunst/dunstrc" > "${dunstdir}/${lastuse}.dunst"
-	fi
-	sed -i "70i\	frame_color = \"${bg}\"" "${confdir}/dunst/dunstrc"
+	(
+		sta="[urgency_low] [urgency_normal] [urgency_critical]"
+		for c in ${sta}; do
+			echo "${c}"
+			printf "\tbackground = \"${color00}\"\n\tforeground = \"${color07}\"\n"
+			if [[ ! "${c}" == "[urgency_critical]" ]]; then
+				printf "\ttimeout = 4\n"
+			else
+				printf "\tframe_color=\"${color01}\"\n\ttimeout = 0\n"
+			fi
+		done
+	) > "/tmp/dunst";
+	(
+		cat "${confdir}/dunst/origin.dunst";
+		cat "/tmp/dunst"
+	) > "${confdir}/dunst/dunstrc"
+	sed -i "70i\	frame_color = \"${color00}\"" "${confdir}/dunst/dunstrc"
 
 	killall dunst
 	dunst &
 	disown
 
-	notify-send "16script" "You're now using ${lastuse}."
+	notify-send "Colors" "colors changed"
+
 }
 
 rasich(){
-	if [[ ! -e "${rofidir}" ]]; then
-		mkdir "${rofidir}"
-	fi
-	if [[ -e "${rofidir}/${lastuse}.rasi" ]]; then
-		cat "${rofidir}/${lastuse}.rasi" > "${confdir}/rofi/16script.rasi"
-	else
 	(
 #	{{{ 16script.rasi
 		echo "* {";
-		echo "    active-background: ${color19};";
+		echo "    active-background: ${color08};";
 		echo "    active-foreground: @foreground;";
 		echo "    normal-background: @background;";
 		echo "    normal-foreground: @foreground;";
@@ -99,14 +86,14 @@ rasich(){
 		echo "";
 		echo "    selected-active-background: ${color01};";
 		echo "    selected-active-foreground: @foreground;";
-		echo "    selected-normal-background: ${color19};";
+		echo "    selected-normal-background: ${color08};";
 		echo "    selected-normal-foreground: @foreground;";
 		echo "    selected-urgent-background: ${color03};";
 		echo "    selected-urgent-foreground: @foreground;";
 		echo "";
 		echo "    background-color: @background;";
-		echo "    background: ${bg};";
-		echo "    foreground: ${fg};";
+		echo "    background: ${color00};";
+		echo "    foreground: ${color07};";
 		echo "    border-color: @background;";
 		echo "    spacing: 0;";
 		echo "}";
@@ -230,8 +217,6 @@ rasich(){
 		echo "}"
 #	}}}
 	) > "${confdir}/rofi/16script.rasi"
-	cat "${confdir}/rofi/16script.rasi" > "${rofidir}/${lastuse}.rasi"
-	fi
 }
 
 main(){

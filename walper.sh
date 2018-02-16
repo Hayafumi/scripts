@@ -25,6 +25,7 @@ elif [[ "$1" == "-s" ]]; then
 	[[ -e ~/.background/colors ]] && ~/.config/base16-shell/scripts/"$(< ~/.background/colors).sh"
 else
 	wal -i "$1"
+	~/scripts/16script/16scriptpart2.sh
 	[[ -f ~/.background/current ]] && rm ~/.background/current
 	[[ -f ~/.background/colors ]] && rm ~/.background/colors
 	readlink -f "$1" > ~/.background/wal
