@@ -7,15 +7,15 @@ xresurl="https://raw.githubusercontent.com/chriskempson/base16-xresources/master
 shurl="https://github.com/chriskempson/base16-shell.git"
 
 xresch(){
-	if [[ -f "${cachedir}/Xresources/${1}.Xresources" ]] &&
+	if [[ -f "${cachedir}/Xresources/${1}.Xresources" ]] && \
 	grep -q 'color[0-21]' "${cachedir}/Xresources/${1}.Xresources" ; then
 		echo "Xresources file found :)"
 		xres="$(< ${cachedir}/Xresources/${1}.Xresources)"
-		xrdb "${HOME}/.Xresources" &> /dev/null
+		xrdb "${HOME}/.Xresources" > /dev/null
 		xrdb -merge <<< "${xres}"
 	else
-		echo "Downloading Xresources from GitHub";
-			curl -s "${xresurl}/${1}-256.Xresources" > "${cachedir}/Xresources/${1}.Xresources"
+		echo "Downloading Xresources from GitHub"
+		curl -s "${xresurl}/${1}-256.Xresources" > "${cachedir}/Xresources/${1}.Xresources"
 		xresch "${1}"
 	fi
 }
@@ -31,17 +31,6 @@ relthings(){
 	fi
 	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
 		i3-msg restart
-	fi
-}
-
-shinst(){
-	printf "base16-shell is not installed. Install? [Y/n] "
-	read -r yn
-	if [[ -z "${yn}" ]] || [[ "${yn}" == "Y" ]] || [[ "${yn}" == "y" ]]; then
-		git clone "${shurl}" "${HOME}/.config/base16-shell"
-		find "${scriptdir}" -type f -exec chmod +x {} \;
-	else
-		echo "no" > "${cachedir}/instno"
 	fi
 }
 

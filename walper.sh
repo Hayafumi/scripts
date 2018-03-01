@@ -4,7 +4,6 @@ if [[ "$1" == base16-*.png ]]; then
 	~/scripts/16script/16script.sh "${1::-4}" ~/scripts/16script/16scriptpart2.sh
 	echo "${1::-4}" > ~/.background/colors
 	if [[ -e ~/.background/wal ]]; then
-		rm ~/.background/current
 		ln -s "$(< ~/.background/wal)" ~/.background/current
 		rm ~/.background/wal
 	fi

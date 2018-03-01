@@ -219,11 +219,27 @@ rasich(){
 	) > "${confdir}/rofi/16script.rasi"
 }
 
+tabbedch(){
+	(
+#	{{{ 16script.h
+		echo "static const char* selbgcolor   = \""${color00}"\";"
+		echo "static const char* selfgcolor   = \""${color07}"\";"
+		echo "static const char* normbgcolor  = \""${color07}"\";"
+		echo "static const char* normfgcolor  = \""${color00}"\";"
+		echo "static const char* urgbgcolor   = \""${color01}"\";"
+		echo "static const char* urgfgcolor   = \""${color15}"\";"
+#	}}}
+	) > "${cachedir}/colors-tabbed.h"
+	cd ~/dotfiles/suckless/tabbed
+	make -B
+}
+
 main(){
 
 #	grad
 	rasich
 	dunsch
+	tabbedch
 
 }
 
