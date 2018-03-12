@@ -8,14 +8,23 @@ if [[ "$1" == base16-*.png ]]; then
 		rm ~/.background/wal
 	fi
 elif [[ "$1" == "-g" ]]; then
-	rm ~/.background/wal
-	rm ~/.background/current
+	rm ~/.background/wal &> /dev/null
+	rm ~/.background/current &> /dev/null
 	ln -s "$(readlink -f "$2")" ~/.background/current
-	feh --bg-fill ~/.background/current
+	if [[ "$2" == *.gif ]]; then
+		pgrep -x xwinwrap && killall xwinwrap
+		xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop --really-quiet "$2" &
+	else
+		feh --bg-fill ~/.background/current
+	fi
 elif [[ "$1" == "-e" ]]; then
 	if [[ -e ~/.background/wal ]]; then
+		if grep -q .gif ~/.background/wal; then
+			xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop -really-quiet "$(< ~/.background/wal)" &
+		fi
 		wal -i "$(< ~/.background/wal)"
-		~/scripts/16script/16scriptpart2.sh
+	elif grep -q .gif ~/.background/current; then
+		xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop --really-quiet "$(< ~/.background/current)" &
 	else
 		feh --bg-fill ~/.background/current
 	fi
@@ -25,7 +34,12 @@ elif [[ "$1" == "-s" ]]; then
 else
 	wal -i "$1"
 	~/scripts/16script/16scriptpart2.sh
+	pgrep -x xwinwrap && killall xwinwrap
+	if [[ "$1" == *.gif ]]; then
+		xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop --really-quiet "$1" &
+	fi
 	[[ -f ~/.background/current ]] && rm ~/.background/current
 	[[ -f ~/.background/colors ]] && rm ~/.background/colors
 	readlink -f "$1" > ~/.background/wal
 fi
+disown &> /dev/null
