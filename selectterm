@@ -6,7 +6,7 @@ read -r X Y W H < <(slop -f "%x %y %w %h" -b 1 -t 0 -q)
 (( H /= 11 ))
 g=${W}x${H}+${X}+${Y}
 if [ "$1" == "perl6" ]; then
-    urxvt -g $g -e perl6
+	urxvt -g $g -e perl6
 else
-    urxvt -g $g
+	urxvt -g $g
 fi

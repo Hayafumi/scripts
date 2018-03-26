@@ -8,11 +8,11 @@ if [[ "$1" == base16-*.png ]]; then
 		rm ~/.background/wal
 	fi
 elif [[ "$1" == "-g" ]]; then
+	pgrep -x xwinwrap > /dev/null && killall xwinwrap
 	rm ~/.background/wal &> /dev/null
 	rm ~/.background/current &> /dev/null
 	ln -s "$(readlink -f "$2")" ~/.background/current
 	if [[ "$2" == *.gif ]]; then
-		pgrep -x xwinwrap && killall xwinwrap
 		xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop --really-quiet "$2" &
 	else
 		feh --bg-fill ~/.background/current
@@ -23,7 +23,7 @@ elif [[ "$1" == "-e" ]]; then
 			xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop -really-quiet "$(< ~/.background/wal)" &
 		fi
 		wal -i "$(< ~/.background/wal)"
-	elif grep -q .gif ~/.background/current; then
+	elif readlink -f "$(< ~/.background/current)" | grep -q .gif; then
 		xwinwrap -ov -ni -fs -- mpv -vo x11 -wid WID --keepaspect=no --loop --really-quiet "$(< ~/.background/current)" &
 	else
 		feh --bg-fill ~/.background/current

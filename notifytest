@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+notify-send "$(cat <<EOF
+Lorem Ipsum
+
+Voluptatem tempore necessitatibus dolor sed quos suscipit. Maiores quaerat delectus eos eum non modi sed. Consequatur nam molestiae expedita nisi.
+
+Sit ipsum aut ea deserunt et sed eos repellendus. Qui omnis optio magnam eum. Dolores nemo iusto illum. Sed rem deleniti totam molestias non et pariatur voluptas.
+
+Minus quisquam sit quia. Qui soluta deserunt quas. Amet voluptas omnis omnis qui debitis et.
+
+Saepe officia rem vel quaerat velit. Nobis et itaque autem autem est distinctio. Molestiae quis atque sequi accusamus distinctio. Qui nesciunt esse et facere quibusdam omnis aliquid et.
+
+Consequuntur quia quia harum et asperiores in sit. Occaecati distinctio nostrum nam commodi suscipit non. Blanditiis quis praesentium ex magnam.
+EOF
+)"

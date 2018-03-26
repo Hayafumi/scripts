@@ -30,7 +30,10 @@ relthings(){
 		echo "base16-shell doesn't seem to be installed."
 	fi
 	if pgrep -x i3 > /dev/null && grep -q set_ "${confdir}/i3/config"; then
-		i3-msg restart
+		i3-msg reload
+	fi
+	if pgrep -x polybar > /dev/null; then
+		pkill -USR1 polybar
 	fi
 }
 
