@@ -23,7 +23,7 @@
 """
 
 from pylast import LastFMNetwork, AlbumSearch
-from mpd import MPDClient, socket
+from mpd import MPDClient
 
 import os, sys
 try:
@@ -263,7 +263,7 @@ if __name__ == '__main__':
     try:
         # connect client to MPD server
         mpd_client.connect(args.hostname, args.port)
-    except socket.error:
+    except:
         # Cannot connect
         sys.stderr.write('MPD not running?'+'\n')
         grabber.remove_current_link()

@@ -59,7 +59,7 @@ dunsch(){
 	sed -i "70i\	frame_color = \"${color00}\"" "${confdir}/dunst/dunstrc"
 
 	killall dunst
-	dunst &
+	dunst &> /dev/null &
 	disown
 
 	notify-send "Colors" "colors changed"
