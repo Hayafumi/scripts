@@ -5,9 +5,10 @@ startrec(){
 
 #	notify-send -t 2000 "recording started"
 
-	ffmpeg -y -f x11grab -show_region 1 -s ${3}x${4} \
-		-r 30 -i :0.0+${1},${2} -qscale 0 \
-		"record-$(date '+%a %b %d - %l:%M %p')".mp4
+	ffmpeg -y -f alsa -f x11grab -show_region 1 -s ${3}x${4} \
+		-r 30 -i :0.0+${1},${2} -c:v libvpx-vp9 \
+		-crf 30 -b:v 0 -qscale 0 \
+		~/"record-$(date '+%a %b %d - %l:%M %p')".webm
 }
 
 stoprec(){
