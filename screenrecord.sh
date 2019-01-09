@@ -11,7 +11,7 @@ outf(){
 main(){
 	outf "${@}"
 
-	ffmpeg -f x11grab -show_region 1 $(slop -f "-s %wx%h -i :0.0+%x,%y") \
+	ffmpeg -f alsa -i pulse -filter:a "volume=0" -f x11grab -show_region 1 $(slop -f "-s %wx%h -i :0.0+%x,%y") \
 	-c:v libx264 -c:a flac "${outfile}"
 }
 
