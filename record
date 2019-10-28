@@ -15,10 +15,6 @@ startrec(){
 		~/"record-$(date '+%a %b %d - %l:%M %p')".mp4
 }
 
-stoprec(){
-	pkill ffmpeg
-
-	notify-send -t 2000 "recording stopped"
-}
-
-pgrep -x ffmpeg > /dev/null && stoprec || startrec
+pid="$(pgrep -f x11grab)" && \
+		( kill "$pid"; notify-send -t 2000 "recording stopped" ) || \
+		startrec
